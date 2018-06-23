@@ -10,7 +10,6 @@ func NewHomeController() HomeController {
 }
 
 func (hc HomeController) Index(ctx iris.Context) {
-	// ctx.HTML("Home page(index)")
 	ctx.View("home/index.html")
 }
 
