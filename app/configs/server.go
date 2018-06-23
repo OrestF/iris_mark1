@@ -16,5 +16,5 @@ func ConfigureServer(app *iris.Application) {
 }
 
 func registerViews(app *iris.Application) {
-	app.RegisterView(iris.HTML("./app/views", ".html"))
+	app.RegisterView(iris.HTML("./app/views", ".html").Layout("layouts/app.html"))
 }

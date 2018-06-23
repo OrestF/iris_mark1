@@ -1,19 +1,19 @@
-package server
+package app
 
 import (
 	"github.com/kataras/iris"
 
-	"../../app/configs"
+	"../app/configs"
 )
 
-type Server struct {
+type App struct {
 }
 
-func New() (server *Server) {
+func New() (app *App) {
 	return
 }
 
-func (s *Server) Start() {
+func (a *App) Start() {
 	app := iris.New()
 	configs.ConfigureServer(app)
 	configs.ConfigureRoutes(app)

@@ -1,10 +1,10 @@
 package main
 
 import (
-	"./app/server"
+	"./app"
 )
 
 func main() {
-	server := server.New()
-	server.Start()
+	app := app.New()
+	app.Start()
 }

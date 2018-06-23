@@ -3,29 +3,21 @@ package configs
 import (
 	"../../app/controllers"
 	"github.com/kataras/iris"
+	"github.com/kataras/iris/mvc"
 )
 
 func ConfigureRoutes(app *iris.Application) {
-	homeController := controllers.NewHomeController()
+	// ROUTING WAY 1
+	homeController := new(controllers.HomeController)
 
 	app.Get("/", func(ctx iris.Context) {
 		homeController.Index(ctx)
-	})
+	}).Name = "root_path"
 
-	app.Get("/cars", func(ctx iris.Context) {
-		homeController.Cars(ctx)
-	})
+	// ROUTING WAY 2
+	mvc.Configure(app.Party("/users"), controllers.NewUsersController)
 
-	// same as app.Handle("GET", "/ping", [...])
-	// Method:   GET
-	// Resource: http://localhost:8080/ping
-	app.Get("/ping", func(ctx iris.Context) {
-		ctx.WriteString("pong")
-	})
-
-	// Method:   GET
-	// Resource: http://localhost:8080/hello
 	app.Get("/hello", func(ctx iris.Context) {
 		ctx.JSON(iris.Map{"message": "Hello Iris!"})
-	})
+	}).Name = "hello_path"
 }
