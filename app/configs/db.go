@@ -3,31 +3,20 @@ package configs
 import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
+
+	"../models"
 )
 
-type User struct {
-	gorm.Model
-	Email string
-}
-
-func ConfigureDB() {
+func ConfigureDB() *gorm.DB {
 	db := setupDBConnection()
 	defer db.Close()
 
 	autoMigrateTables(db)
-
-	// CREATE, FIND TESTING
-	user := User{Email: "user@mail2.com"}
-	db.Create(&user)
-
-	var u3 User
-	db.First(&u3)
-	println("FINDED USER", u3.Email)
+	return db
 }
 
 func setupDBConnection() *gorm.DB {
-	db, err := gorm.Open("sqlite3", "/tmp/gorm.db")
-	// defer db.Close()
+	db, err := gorm.Open("sqlite3", "/home/orest/Training/go/iris_mark1/tmp/gorm.db")
 
 	if err != nil {
 		panic("DB error")
@@ -36,5 +25,5 @@ func setupDBConnection() *gorm.DB {
 }
 
 func autoMigrateTables(db *gorm.DB) {
-	db.AutoMigrate(&User{})
+	db.AutoMigrate(models.User{})
 }

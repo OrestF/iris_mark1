@@ -13,7 +13,7 @@ func New() (app *App) {
 	return
 }
 
-func (a *App) Start() {
+func (*App) Start() {
 	app := iris.New()
 	configs.ConfigureServer(app)
 	configs.ConfigureRoutes(app)
