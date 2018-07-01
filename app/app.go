@@ -13,11 +13,11 @@ func New() (app *App) {
 	return
 }
 
-func (*App) Start() {
-	app := iris.New()
-	configs.ConfigureServer(app)
-	configs.ConfigureRoutes(app)
+func (app *App) Start() {
+	irisApp := iris.New()
+	configs.ConfigureServer(irisApp)
+	configs.ConfigureRoutes(irisApp)
 	configs.ConfigureDB()
 
-	app.Run(iris.Addr(":8080"), iris.WithoutServerError(iris.ErrServerClosed))
+	irisApp.Run(iris.Addr(":8080"), iris.WithoutServerError(iris.ErrServerClosed))
 }

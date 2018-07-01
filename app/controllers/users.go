@@ -13,7 +13,7 @@ type UsersController struct {
 
 func NewUsersController(app *mvc.Application) {
 	app.Handle(&UsersController{
-		model: models.NewUserModel(),
+		model: models.UserModel{},
 	})
 }
 
@@ -39,9 +39,9 @@ func (uc *UsersController) GetBy(id int64) mvc.Result {
 	}
 }
 
-func (uc *UsersController) Post(ctx *iris.Context) mvc.Result {
+func (uc *UsersController) Post(ctx iris.Context) mvc.Result {
 	// email := ctx.URLParam("email")
-	params := userParams(*ctx)
+	params := userParams(ctx)
 	println("VALUES:", params["email"], params["name"])
 
 	user := models.User{Email: params["email"], Name: params["name"]}
@@ -56,26 +56,28 @@ func (uc *UsersController) Post(ctx *iris.Context) mvc.Result {
 	}
 }
 
-// func (uc *UsersController) PutBy(ctx *iris.Context, id int64) mvc.Result {
-// 	params := userParams(*ctx)
-// 	println("VALUES:", params["email"], params["name"])
+func (uc *UsersController) PutBy(ctx iris.Context, id int64) mvc.Result {
+	params := userParams(ctx)
 
-// 	user := models.User{Email: params["email"], Name: params["name"]}
-// 	user = uc.model.Create(user)
+	paramsStruct := models.User{
+		Name:  params["name"],
+		Email: params["email"],
+	}
+	user := uc.model.Update(id, paramsStruct)
 
-// 	// TODO: redirect insted of view render
-// 	return mvc.View{
-// 		Name: "users/show.html",
-// 		Data: iris.Map{
-// 			"user": user,
-// 		},
-// 	}
-// 	return mvc.View{}
-// }
+	// TODO: redirect insted of view render
+	return mvc.View{
+		Name: "users/show.html",
+		Data: iris.Map{
+			"user": user,
+		},
+	}
+}
 
 func (uc *UsersController) DeleteBy(id int64) mvc.Result {
 	uc.model.Delete(id)
 
+	// TODO: redirect instead of view render
 	return mvc.View{
 		Name: "users/index.html",
 	}

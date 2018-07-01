@@ -9,17 +9,17 @@ import (
 
 func ConfigureDB() *gorm.DB {
 	db := setupDBConnection()
-	defer db.Close()
+	models.DB = db
 
 	autoMigrateTables(db)
 	return db
 }
 
 func setupDBConnection() *gorm.DB {
-	db, err := gorm.Open("sqlite3", "/home/orest/Training/go/iris_mark1/tmp/gorm.db")
+	db, err := gorm.Open("sqlite3", "../iris_mark1/tmp/gorm.db")
 
 	if err != nil {
-		panic("DB error")
+		panic(err)
 	}
 	return db
 }
